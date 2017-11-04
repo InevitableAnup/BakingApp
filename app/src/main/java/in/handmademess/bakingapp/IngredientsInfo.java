@@ -7,6 +7,7 @@ package in.handmademess.bakingapp;
 public class IngredientsInfo {
     public int quantity;
     public String measure,ingredient;
+    private IngredientsInfo[] ingredients;
 
 
     public IngredientsInfo() {
@@ -16,6 +17,14 @@ public class IngredientsInfo {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
+    }
+
+    public IngredientsInfo[] getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(IngredientsInfo[] ingredients) {
+        this.ingredients = ingredients;
     }
 
     public int getQuantity() {
