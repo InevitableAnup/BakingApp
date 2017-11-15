@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import in.handmademess.bakingapp.Adapter.DataItemAdapter;
 import in.handmademess.bakingapp.R;
 import in.handmademess.bakingapp.RecipeObject;
 
@@ -43,6 +45,8 @@ public class RecipeListFragment extends Fragment implements AdapterView.OnItemCl
     ListView lv_recipe;
     RecipeObject recipe;
 
+    RecyclerView recyclerView;
+
 
     public RecipeListFragment() {
     }
@@ -51,8 +55,9 @@ public class RecipeListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_list,container,false);
-        lv_recipe = (ListView) rootView.findViewById(R.id.lv_recipe);
-        lv_recipe.setOnItemClickListener(this);
+//        lv_recipe = (ListView) rootView.findViewById(R.id.lv_recipe);
+//        lv_recipe.setOnItemClickListener(this);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvItems);
 
         get_recipe();
 
@@ -76,28 +81,35 @@ public class RecipeListFragment extends Fragment implements AdapterView.OnItemCl
                         String name =recipeObject.getString("name");
                         String ingredients =recipeObject.getString("ingredients");
                         String steps =recipeObject.getString("steps");
+                        int servings =recipeObject.getInt("servings");
 
-                        recipe = new RecipeObject(id,name,ingredients,steps);
+                        recipe = new RecipeObject(id,servings,name,ingredients,steps);
 
                         String ing = recipe.getIngredients();
                         Log.d("Recipe Id", String.valueOf(recipe.getId())+ ing);
 
-                        HashMap<String,String> recipeMap = new HashMap<>();
-                        recipeMap.put("id", String.valueOf(id));
-                        recipeMap.put("name",name);
-                        recipeMap.put("ingredients",ingredients);
-                        recipeMap.put("steps",steps);
+//                        HashMap<String,String> recipeMap = new HashMap<>();
+//                        recipeMap.put("id", String.valueOf(id));
+//                        recipeMap.put("name",name);
+//                        recipeMap.put("ingredients",ingredients);
+//                        recipeMap.put("steps",steps);
+//                        recipeMap.put("servings", String.valueOf(servings));
 
-                        recipeList.add(recipeMap);
+
+
+                        recipeList.add(recipe);
 
 
 
                     }
 
-                    ListAdapter adapter = new SimpleAdapter(getActivity(), recipeList,
-                            R.layout.list_item, new String[]{ "id","name","ingredients","steps"},
-                            new int[]{R.id.tv_serving, R.id.recipeName, R.id.tv_ingredients, R.id.tv_steps});
-                    lv_recipe.setAdapter(adapter);
+                    DataItemAdapter adapter = new DataItemAdapter(getActivity(), recipeList);
+                    recyclerView.setAdapter(adapter);
+
+//                    ListAdapter adapter = new SimpleAdapter(getActivity(), recipeList,
+//                            R.layout.list_item, new String[]{ "id","name","ingredients","steps"},
+//                            new int[]{R.id.tv_serving, R.id.recipeName, R.id.tv_ingredients, R.id.tv_steps});
+//                    lv_recipe.setAdapter(adapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

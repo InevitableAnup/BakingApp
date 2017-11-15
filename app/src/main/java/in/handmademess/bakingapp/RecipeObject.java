@@ -1,21 +1,33 @@
 package in.handmademess.bakingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Anup on 04-11-2017.
  */
 
-public class RecipeObject {
-    public int id;
+public class RecipeObject implements Parcelable {
+    public int id,serving;
     public String name,ingredients,steps;
 
     public RecipeObject() {
     }
 
-    public RecipeObject(int id, String name, String ingredients, String steps) {
+    public RecipeObject(int id, int serving, String name, String ingredients, String steps) {
         this.id = id;
+        this.serving = serving;
         this.name = name;
         this.ingredients = ingredients;
         this.steps = steps;
+    }
+
+    public int getServing() {
+        return serving;
+    }
+
+    public void setServing(int serving) {
+        this.serving = serving;
     }
 
     public int getId() {
@@ -50,6 +62,9 @@ public class RecipeObject {
         this.steps = steps;
     }
 
+
+
+
     @Override
     public String toString() {
         return "RecipeObject{" +
@@ -59,4 +74,38 @@ public class RecipeObject {
                 ", steps='" + steps + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.serving);
+        dest.writeString(this.name);
+        dest.writeString(this.ingredients);
+        dest.writeString(this.steps);
+    }
+
+    protected RecipeObject(Parcel in) {
+        this.id = in.readInt();
+        this.serving = in.readInt();
+        this.name = in.readString();
+        this.ingredients = in.readString();
+        this.steps = in.readString();
+    }
+
+    public static final Parcelable.Creator<RecipeObject> CREATOR = new Parcelable.Creator<RecipeObject>() {
+        @Override
+        public RecipeObject createFromParcel(Parcel source) {
+            return new RecipeObject(source);
+        }
+
+        @Override
+        public RecipeObject[] newArray(int size) {
+            return new RecipeObject[size];
+        }
+    };
 }
