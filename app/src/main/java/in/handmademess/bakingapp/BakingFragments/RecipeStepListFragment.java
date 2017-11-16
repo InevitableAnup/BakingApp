@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -54,30 +55,30 @@ public class RecipeStepListFragment extends Fragment implements AdapterView.OnIt
         }else {
             Toast.makeText(getActivity(), "Didn't recieve any data", Toast.LENGTH_SHORT).show();
         }
-//        String ingredientsList =bundle.getString("ingredients");
-//        String stepList = bundle.getString("steps");
-//        lv_ingredients = (ListView) rootView.findViewById(R.id.lv_ingredients);
-//        lv_steps = (ListView) rootView.findViewById(R.id.lv_steps);
-//        lv_steps.setOnItemClickListener(this);
-//
-//        tb_ingredients = (ToggleButton) rootView.findViewById(R.id.tb_ingredients);
-//        tb_ingredients.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked)
-//                {
-//                    lv_ingredients.setVisibility(View.VISIBLE);
-//
-//                }else{
-//                    lv_ingredients.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        Log.d("Steps",stepList);
-//
-//        displayIngredients(ingredientsList);
-//        displaySteps(stepList);
+        String ingredientsList = recipeObject.getIngredients();
+        String stepList = recipeObject.getSteps();
+        lv_ingredients = (ListView) rootView.findViewById(R.id.lv_ingredients);
+        lv_steps = (ListView) rootView.findViewById(R.id.lv_steps);
+        lv_steps.setOnItemClickListener(this);
+
+        tb_ingredients = (ToggleButton) rootView.findViewById(R.id.tb_ingredients);
+        tb_ingredients.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                {
+                    lv_ingredients.setVisibility(View.VISIBLE);
+
+                }else{
+                    lv_ingredients.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        Log.d("Steps",stepList);
+
+        displayIngredients(ingredientsList);
+        displaySteps(stepList);
 
         return rootView;
     }
